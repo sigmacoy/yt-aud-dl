@@ -9,7 +9,6 @@ import tempfile
 app = Flask(__name__)
 CORS(app)  # Allow Brave extension to talk to this server
 
-
 @app.route('/download', methods=['POST'])
 def download_audio():
     """
