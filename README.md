@@ -62,21 +62,3 @@ python server/app.py
 3. Click Load unpacked
 4. Select the extension folder from the project
 5. The extension icon will appear in the toolbar
-
-
-## Project Structure
-```text
-youtube-audio-downloader/
-├── extension/          
-│   ├── manifest.json   # Extension configuration
-│   ├── popup.html      # Popup interface
-│   └── popup.js        # Extension logic
-├── server/             # Flask backend
-│   └── app.py          # Main server code
-└── README.md           
-```
-
-## API Endpoints
-1. /download<br>POST<br>Download audio from YouTube URL 
-2. /info<br>POST<br>Get video title without downloading
-3. /health<br>GET<br>Check if server is running
