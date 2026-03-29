@@ -56,8 +56,8 @@ python server/app.py
 
 ### Keep the venv terminal window open <br> NOTE: Turn off Airplay Receiever MacOS
 
-### 6. Load the Extension in Brave
-1. Open Brave and go to brave://extensions
+### 6. Load the Extension in Brave/Google
+1. Open Brave/Google and go to brave://extensions or Google's ( chrome://extensions/ )
 2. Enable Developer mode (top right)
 3. Click Load unpacked
 4. Select the extension folder from the project
