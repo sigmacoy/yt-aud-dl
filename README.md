@@ -1,7 +1,6 @@
 # YouTube Audio Downloader
 
-A browser extension that downloads audio from YouTube videos as MP3 files. Uses yt-dlp and ffmpeg with a Flask backend. <br>
-Perfect for those hard-to-find compilations, J-Pop mixes, and rare tracks that aren't available on Spotify. <br>
+A browser extension that downloads audio from YouTube videos as MP3 files. Uses yt-dlp and ffmpeg with a Flask backend. Perfect for those hard-to-find compilations, J-Pop mixes, and rare tracks that aren't available on Spotify. <br><br>
 
 - Download audio from any YouTube video
 - Custom MP3 filename before downloading
@@ -25,6 +24,10 @@ Perfect for those hard-to-find compilations, J-Pop mixes, and rare tracks that a
 ## Installation
 
 ### 1. Clone the Repository
+```bash
+git clone https://github.com/sigmacoy/yt-aud-dl.git
+```
+
 ### 2. Install ffmpeg (macOS)
 ```bash
 brew install ffmpeg
