@@ -67,14 +67,13 @@ python server/app.py
 ## Project Structure
 ```text
 youtube-audio-downloader/
-├── extension/           # Brave extension files
+├── extension/          
 │   ├── manifest.json   # Extension configuration
 │   ├── popup.html      # Popup interface
 │   └── popup.js        # Extension logic
 ├── server/             # Flask backend
 │   └── app.py          # Main server code
-├── requirements.txt    # Python dependencies
-└── README.md          # This file
+└── README.md           
 ```
 
 ## API Endpoints
