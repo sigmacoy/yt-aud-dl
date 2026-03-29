@@ -124,8 +124,6 @@ function cleanFilename(title) {
 }
 
 
-
-
 // Download audio from YouTube
 async function downloadAudio(url, customTitle) {
   try {
@@ -196,7 +194,6 @@ async function downloadAudio(url, customTitle) {
     downloadBtn.textContent = '📥 Download MP3';
   }
 }
-
 
 
 // Handle download button click
