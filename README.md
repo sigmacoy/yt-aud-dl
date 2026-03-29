@@ -2,7 +2,12 @@
 
 A browser extension that downloads audio from YouTube videos as MP3 files. Uses yt-dlp and ffmpeg with a Flask backend. Perfect for those hard-to-find compilations, J-Pop mixes, and rare tracks that aren't available on Spotify. <br>
 
-$Warning:$ By using your account with yt-dlp, you run the risk of it being banned (temporarily or permanently). Be mindful with the request rate and amount of downloads you make with an account. Use it only when necessary, or consider using a throwaway account.
+$Warning:$ By using your account with yt-dlp, you run the risk of it being banned (temporarily or permanently). Be mindful with the request rate and amount of downloads you make with an account. Use it only when necessary, or consider using a throwaway account. <br>
+
+It is recommended to add a delay of around 5-10 seconds between downloads. With the default yt-dlp settings, the rate limit for guest sessions is ~300 videos/hour (~1000 webpage/player requests per hour). For accounts, it is ~2000 videos/hour (~4000 webpage/player requests per hour). <br>
+
+Source: https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies
+
 
 ## Features
 
