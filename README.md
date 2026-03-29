@@ -74,6 +74,6 @@ youtube-audio-downloader/
 ```
 
 ## API Endpoints
-1. /download    POST    Download audio from YouTube URL 
-2. /info	    POST	Get video title without downloading
-3. /health	    GET	    Check if server is running
+1. /download<br>POST<br>Download audio from YouTube URL 
+2. /info<br>POST<br>Get video title without downloading
+3. /health<br>GET<br>Check if server is running
