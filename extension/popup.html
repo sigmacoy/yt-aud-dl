@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      width: 320px;
+      padding: 15px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      background: #1a1a1a;
+      color: #fff;
+    }
+    
+    h3 {
+      margin: 0 0 10px 0;
+      font-size: 16px;
+      text-align: center;
+      color: #ff0000;
+    }
+    
+    .url-display {
+      background: #2a2a2a;
+      padding: 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      word-break: break-all;
+      margin-bottom: 12px;
+      border: 1px solid #3a3a3a;
+    }
+    
+    /* Title input section */
+    .title-input-section {
+      margin-bottom: 12px;
+    }
+    
+    .title-label {
+      font-size: 12px;
+      margin-bottom: 5px;
+      color: #ff0000;
+      font-weight: bold;
+    }
+    
+    #customTitle {
+      width: 100%;
+      padding: 8px;
+      background: #2a2a2a;
+      border: 1px solid #3a3a3a;
+      color: #fff;
+      border-radius: 6px;
+      font-size: 12px;
+      box-sizing: border-box;
+    }
+    
+    #customTitle:focus {
+      outline: none;
+      border-color: #ff0000;
+    }
+    
+    #customTitle:disabled {
+      opacity: 0.5;
+    }
+    
+    .auto-title {
+      font-size: 10px;
+      color: #888;
+      margin-top: 5px;
+      text-align: right;
+      cursor: pointer;
+    }
+    
+    .auto-title:hover {
+      color: #ff0000;
+    }
+    
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #ff0000;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    button:hover:not(:disabled) {
+      background: #cc0000;
+      transform: translateY(-1px);
+    }
+    
+    button:disabled {
+      background: #666;
+      cursor: not-allowed;
+    }
+    
+    .status {
+      margin-top: 12px;
+      padding: 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      text-align: center;
+      display: none;
+    }
+    
+    .status.success {
+      background: #2e7d32;
+      color: #fff;
+      display: block;
+    }
+    
+    .status.error {
+      background: #c62828;
+      color: #fff;
+      display: block;
+    }
+    
+    .status.loading {
+      background: #f57c00;
+      color: #fff;
+      display: block;
+    }
+    
+    .server-status {
+      font-size: 10px;
+      text-align: center;
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px solid #3a3a3a;
+      color: #888;
+    }
+    
+    .server-online {
+      color: #4caf50;
+    }
+    
+    .server-offline {
+      color: #f44336;
+    }
+  </style>
+</head>
+<body>
+  <h3>🎵 YouTube Audio Downloader</h3>
+  
+  <div class="url-display" id="urlDisplay">
+    No YouTube video detected
+  </div>
+  
+  <!-- Custom title input -->
+  <div class="title-input-section">
+    <div class="title-label">📝 MP3 Title:</div>
+    <input type="text" id="customTitle" placeholder="Enter custom title..." disabled>
+    <div class="auto-title" id="autoTitleBtn">⟳ Use video title</div>
+  </div>
+  
+  <button id="downloadBtn" disabled>📥 Download MP3</button>
+  
+  <div class="status" id="status"></div>
+  
+  <div class="server-status" id="serverStatus">
+    🔍 Checking server...
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
