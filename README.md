@@ -1,0 +1,76 @@
+# YouTube Audio Downloader
+
+A browser extension that downloads audio from YouTube videos as MP3 files. Uses yt-dlp and ffmpeg with a Flask backend. <br>
+Perfect for those hard-to-find compilations, J-Pop mixes, and rare tracks that aren't available on Spotify. <br>
+
+- Download audio from any YouTube video
+- Custom MP3 filename before downloading
+- Direct streaming - no files saved on server
+- Saves to Brave's default download location
+
+## Tech Stack
+- **Frontend**: JavaScript (Brave/Chrome Extension)
+- **Backend**: Python Flask
+- **Downloader**: yt-dlp
+- **Audio Conversion**: ffmpeg
+
+## Prerequisites
+
+- Python 3.8+
+- Brave Browser (or any Chromium-based browser)
+- Homebrew (for macOS)
+- yt-dlp
+- ffmpeg
+
+## Installation
+
+### 1. Clone the Repository
+### 2. Install ffmpeg (macOS)
+```bash
+brew install ffmpeg
+```
+
+### 3. Set Up Python Virtual Environment
+```bash
+python3 -m venv venv
+source venv/bin/activate  # On macOS/Linux
+# On Windows: venv\Scripts\activate
+```
+
+### 4. Install Python Dependencies
+```bash
+pip install flask flask-cors yt-dlp
+```
+
+### 5. Run Flask server
+```bash
+python server/app.py
+```
+
+### Keep the venv terminal window open <br> NOTE: Turn off Airplay Receiever MacOS
+
+### 6. Load the Extension in Brave
+1. Open Brave and go to brave://extensions
+2. Enable Developer mode (top right)
+3. Click Load unpacked
+4. Select the extension folder from the project
+5. The extension icon will appear in the toolbar
+
+
+## Project Structure
+```text
+youtube-audio-downloader/
+├── extension/           # Brave extension files
+│   ├── manifest.json   # Extension configuration
+│   ├── popup.html      # Popup interface
+│   └── popup.js        # Extension logic
+├── server/             # Flask backend
+│   └── app.py          # Main server code
+├── requirements.txt    # Python dependencies
+└── README.md          # This file
+```
+
+## API Endpoints
+1. /download    POST    Download audio from YouTube URL 
+2. /info	    POST	Get video title without downloading
+3. /health	    GET	    Check if server is running
