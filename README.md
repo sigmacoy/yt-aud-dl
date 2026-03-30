@@ -8,6 +8,8 @@ It is recommended to add a delay of around 5-10 seconds between downloads. With 
 
 Source: https://github.com/yt-dlp/yt-dlp/wiki/Extractors#exporting-youtube-cookies
 
+# NOTE THAT:
+Make sure single video. Do not open a youtube playlist!
 
 ## Features
 
@@ -60,6 +62,7 @@ python server/app.py
 ```
 
 ### Keep the venv terminal window open <br> NOTE: Turn off Airplay Receiever MacOS
+
 
 ### 6. Load the Extension in Brave/Google
 1. Open Brave/Google and go to brave://extensions or Google's ( chrome://extensions/ )
