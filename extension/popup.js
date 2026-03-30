@@ -131,63 +131,29 @@ async function downloadAudio(url, customTitle) {
     customTitleInput.disabled = true;
     downloadBtn.textContent = '⏳ Downloading...';
     showStatus('Processing video... This may take a minute', 'loading');
-
-    // Start progress bar
-    startProgress();
-
-    // Send request to Flask server
+    
     const response = await fetch(`${SERVER_URL}/download`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ 
-        url: url,
-        custom_title: customTitle
-      })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: url, custom_title: customTitle })
     });
-
+    
     if (!response.ok) {
       const error = await response.json();
       throw new Error(error.error || 'Download failed');
     }
-
-    // Get the MP3 file
-    const blob = await response.blob();
-
-    // Finish progress bar
-    finishProgress();
-
-    // Get filename from response
-    const contentDisposition = response.headers.get('Content-Disposition');
-    let filename = `${customTitle}.mp3`;
-    if (contentDisposition) {
-      const match = contentDisposition.match(/filename="?(.+)"?/);
-      if (match) filename = match[1];
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      showStatus(`✅ ${data.message}`, 'success');
+    } else {
+      throw new Error('Download failed');
     }
-
-    // Trigger download - Brave saves to its default location
-    const downloadUrl = URL.createObjectURL(blob);
-    chrome.downloads.download({
-      url: downloadUrl,
-      filename: filename,
-      conflictAction: 'uniquify'
-    }, (downloadId) => {
-      URL.revokeObjectURL(downloadUrl);
-      if (chrome.runtime.lastError) {
-        showStatus('Download failed: ' + chrome.runtime.lastError.message, 'error');
-      } else {
-        showStatus(`✅ Downloaded: ${filename}`, 'success');
-      }
-    });
-
+    
   } catch (error) {
     console.error('Download error:', error);
     showStatus(`❌ Error: ${error.message}`, 'error');
-
-    // Stop progress bar on error
-    finishProgress();
-
   } finally {
     downloadBtn.disabled = false;
     customTitleInput.disabled = false;

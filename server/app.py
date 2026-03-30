@@ -5,15 +5,18 @@ import os
 import uuid
 import re
 import tempfile
+import shutil
 
 app = Flask(__name__)
 CORS(app)  # Allow Brave extension to talk to this server
 
+# Set Desktop path
+DESKTOP_PATH = os.path.expanduser('~/Desktop')
+
 @app.route('/download', methods=['POST'])
 def download_audio():
     """
-    Receive YouTube URL, download audio as MP3, stream to browser
-    Browser saves to its default download location
+    Receive YouTube URL, download audio as MP3, save to Desktop
     """
     tmp_dir = None
     try:
@@ -32,7 +35,7 @@ def download_audio():
         clean_title = re.sub(r'[<>:"/\\|?*]', '', custom_title)
         clean_title = clean_title.replace(' ', '_')
 
-        # Create a truly temporary directory (auto-cleaned)
+        # Create a temporary directory
         tmp_dir = tempfile.mkdtemp()
         unique_id = str(uuid.uuid4())[:8]
         temp_file = os.path.join(tmp_dir, f'{clean_title}_{unique_id}.%(ext)s')
@@ -66,26 +69,26 @@ def download_audio():
             if not mp3_file:
                 return jsonify({'error': 'Could not find downloaded file'}), 500
 
-            # Send file to browser - Brave will save to its default location
-            response = send_file(
-                mp3_file,
-                as_attachment=True,
-                download_name=f'{clean_title}.mp3',
-                mimetype='audio/mpeg'
-            )
+            # Handle duplicates on Desktop
+            final_filename = f'{clean_title}.mp3'
+            final_path = os.path.join(DESKTOP_PATH, final_filename)
+            
+            counter = 1
+            while os.path.exists(final_path):
+                final_filename = f'{clean_title}_{counter}.mp3'
+                final_path = os.path.join(DESKTOP_PATH, final_filename)
+                counter += 1
 
-            # Delete entire temp dir after sending
-            @response.call_on_close
-            def cleanup():
-                try:
-                    import shutil
-                    if tmp_dir and os.path.exists(tmp_dir):
-                        shutil.rmtree(tmp_dir)
-                        print(f"🗑️ Deleted temp dir: {tmp_dir}")
-                except Exception as e:
-                    print(f"⚠️ Could not delete: {e}")
+            # Move file to Desktop
+            shutil.move(mp3_file, final_path)
+            print(f"📁 Moved to: {final_path}")
 
-            return response
+            # Return success response
+            return jsonify({
+                'success': True,
+                'message': f'Saved to Desktop: {final_filename}',
+                'path': final_path
+            })
 
     except Exception as e:
         print(f"❌ Error: {e}")
@@ -93,7 +96,6 @@ def download_audio():
         traceback.print_exc()
         # Clean up on error
         if tmp_dir and os.path.exists(tmp_dir):
-            import shutil
             shutil.rmtree(tmp_dir, ignore_errors=True)
         return jsonify({'error': str(e)}), 500
 
@@ -135,6 +137,7 @@ def get_video_info():
 
 if __name__ == '__main__':
     print("🎵 YouTube Audio Downloader Server")
+    print(f"📁 Files will be saved to: {DESKTOP_PATH}")
     print("📍 Running at: http://localhost:5000")
     print("Press Ctrl+C to stop\n")
     app.run(host='0.0.0.0', port=5000, debug=True)
