@@ -57,7 +57,7 @@ def download_audio():
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(url, download=True)
             title = info.get('title', 'audio')
-            print(f"✅ Downloaded: {title}")
+            print(f"\n\n✅ Downloaded: {title}")
 
             # Find the actual mp3 file
             mp3_file = None
@@ -81,7 +81,7 @@ def download_audio():
 
             # Move file to Desktop
             shutil.move(mp3_file, final_path)
-            print(f"📁 Moved to: {final_path}")
+            print(f"📁 Moved to: {final_path}\n\n")
 
             # Return success response
             return jsonify({
