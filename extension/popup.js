@@ -37,10 +37,14 @@ async function checkServer() {
 async function getYouTubeUrl() {
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    const url = tab.url;
-    
+    let url = tab.url;
+
+    // Remove &list parameter
+    url = url.split('&list')[0]
+
     if (url.includes('youtube.com/watch') || url.includes('youtu.be/')) {
-      urlDisplay.textContent = url;
+      // urlDisplay.textContent = url;
+      urlDisplay.value = url;
       currentVideoUrl = url;
       downloadBtn.disabled = false;
       customTitleInput.disabled = false;
@@ -49,11 +53,13 @@ async function getYouTubeUrl() {
       await fetchVideoTitle(url);
       
       return url;
-    } else {
-      urlDisplay.textContent = '❌ Not a YouTube video';
-      customTitleInput.disabled = true;
-      customTitleInput.placeholder = 'Not a YouTube video';
-      downloadBtn.disabled = true;
+    } 
+    else {
+      urlDisplay.value = '❌ Not a YouTube video';
+      urlDisplay.placeholder = 'Paste YouTube URL here';
+      customTitleInput.disabled = false;
+      // customTitleInput.placeholder = 'Not a YouTube video';
+      downloadBtn.disabled = false;
       return null;
     }
   } catch (error) {
@@ -164,24 +170,51 @@ async function downloadAudio(url, customTitle) {
 
 // Handle download button click
 downloadBtn.addEventListener('click', async () => {
-  if (!currentVideoUrl) {
-    await getYouTubeUrl();
+  // Read directly from input field
+  const urlToDownload = urlDisplay.value.trim();
+  if (!urlToDownload) {
+    showStatus('❌ Please enter or select a YouTube URL', 'error');
+    return;
   }
+
+  // Allow non-YouTube URLs (try anyway)
+  currentVideoUrl = urlToDownload;
   
-  if (currentVideoUrl) {
-    const serverOnline = await checkServer();
-    if (serverOnline) {
-      let customTitle = customTitleInput.value.trim();
-      if (!customTitle) {
-        customTitle = currentVideoTitle || 'audio';
+  const serverOnline = await checkServer();
+  if (serverOnline) {
+    let customTitle = customTitleInput.value.trim();
+    if (!customTitle) {
+      // If no custom title, try to fetch it, otherwise use "audio"
+      if (!currentVideoTitle && urlToDownload.includes('youtube')) {
+        await fetchVideoTitle(urlToDownload);
       }
-      // Clean the filename
-      customTitle = cleanFilename(customTitle);
-      await downloadAudio(currentVideoUrl, customTitle);
-    } else {
-      showStatus('❌ Server is not running. Start server with: python3 server/app.py', 'error');
+      customTitle = currentVideoTitle || 'audio';
     }
+    // Clean the filename
+    customTitle = cleanFilename(customTitle);
+    await downloadAudio(urlToDownload, customTitle);
+  } else {
+    showStatus('❌ Server is not running. Start server with: python3 server/app.py', 'error');
   }
+
+  // if (!currentVideoUrl) {
+  //   await getYouTubeUrl();
+  // }
+  
+  // if (currentVideoUrl) {
+  //   const serverOnline = await checkServer();
+  //   if (serverOnline) {
+  //     let customTitle = customTitleInput.value.trim();
+  //     if (!customTitle) {
+  //       customTitle = currentVideoTitle || 'audio';
+  //     }
+  //     // Clean the filename
+  //     customTitle = cleanFilename(customTitle);
+  //     await downloadAudio(currentVideoUrl, customTitle);
+  //   } else {
+  //     showStatus('❌ Server is not running. Start server with: python3 server/app.py', 'error');
+  //   }
+  // }
 });
 
 function startProgress() {
