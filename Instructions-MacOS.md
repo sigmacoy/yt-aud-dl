@@ -14,7 +14,7 @@ source venv/bin/activate
 python server/app.py
 ```
 
-## All in one terminal command
+## All in one terminal command (on my end)
 ``` bash
 cd /Users/mccauleybacalla/SigMacoy/Code/VSCode_Repos/yt-aud-dl
 python3 -m venv venv
